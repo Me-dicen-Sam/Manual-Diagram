@@ -1,3 +1,13 @@
+---
+titulo: "U-Library Manual de Usuario"
+autor: "Samuel Baquero"
+Fecha: "2025-11-20"
+output:
+  md_document:
+    variant: preserve_yaml
+    markdown: true
+---
+
 U-Library — Manual de Usuario
 1. Introducción
 U-Library es un sistema web para la gestión de bibliotecas universitarias. Permite administrar libros, autores, estudiantes, préstamos, reservas y reportes. Esta guía explica cómo usar la aplicación desde la perspectiva del usuario final.
