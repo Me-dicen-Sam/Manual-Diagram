@@ -8,559 +8,612 @@ output:
     markdown: true
 ---
 
-# SYSTEM DOCUMENTATION — U‑Library
+# SYSTEM DOCUMENTATION - U-LIBRARY
 
 ## 1. Project Information
-Project Name: U‑Library — University Library Management System  
-Student Name: [Your Name]  
-Course: Software Development  
-Semester: Sixth Semester  
-Date: December 2024  
-Instructor: [Instructor Name]
 
-Short Project Description:  
-A full web system for university library management to handle books, authors, students, loans, reservations, and reporting.
+**Project Name:** U-Library - University Library Management System  
+**Student Name:** Samuel Baquero  
+**Course:** Software Engineering  
+**Semester:** Sixth Semester  
+**Date:** November 2024  
+**Instructor:** Jaider Quintero
+
+**Short Project Description:**  
+U-Library is a comprehensive web-based library management system designed for universities. It facilitates efficient management of books, authors, students, loans, reservations, and provides real-time reporting capabilities.
 
 ## 2. System Architecture Overview
 
 ### 2.1 Architecture Description
-3‑tier client–server architecture:
-- Frontend: Angular application (port 4200)
-- Backend: Django REST API (port 8000)
-- Relational database (PostgreSQL 15 or MySQL 8.0)
+
+U-Library follows a **three-tier client-server architecture** with clear separation of concerns:
+
+- **Presentation Layer:** Angular 20 frontend with PrimeNG components
+- **Application Layer:** Django REST Framework backend API
+- **Data Layer:** Multi-database support (PostgreSQL, MySQL, SQL Server)
 
 ### 2.2 Technologies Used
-- Frontend:
-  - Angular 20.0.0
-  - PrimeNG 20.3.0
-  - Tailwind CSS 4.1.17
-  - TypeScript 5.8.2
-- Backend:
-  - Django 5.2.7
-  - Django REST Framework 3.15.2
-  - Python 3.x
-- Database Engine:
-  - PostgreSQL 15 / MySQL 8.0
-  - ORM: Django ORM
-- Tools:
-  - Git, Postman, Docker (optional), JWT auth
 
-### 2.3 ASCII Architecture Diagram (No Images)
-```
+**Frontend:**
+- Angular 20.0.0
+- PrimeNG 20.3.0 UI Components
+- Tailwind CSS 4.1.17
+- TypeScript 5.8.2
+- RxJS 7.8.0
 
-+----------------------- CLIENT BROWSER -----------------------+
+**Backend:**
+- Django 5.2.7
+- Django REST Framework 3.15.2
+- Python 3.11
+- Django CORS Headers 4.6.0
 
-| Angular Application (Port 4200) |
-| --- |
-| +------------------+   +----------------+   +------------+ |
-|  |
-| +------------------+   +----------------+   +------------+ |
-| PrimeNG + Tailwind CSS UI |
+**Database Engine:**
+- PostgreSQL 15 (Primary)
+- MySQL 8.0 (Secondary)
+- SQL Server 2019 (Optional)
+- SQLite (Development)
 
-+---------------------------|----------------------------------+
+**Additional Libraries / Tools:**
+- Docker & Docker Compose
+- Git for version control
+- Postman for API testing
+- JWT for authentication
 
-v  HTTP REST API (JSON)
-
-+----------------------- DJANGO BACKEND -----------------------+
-
-| REST API Layer |
-| --- |
-| +-----------+   +---------------+    +-------------------+ |
-|  |
-| +-----------+   +---------------+    +-------------------+ |
-| Business Logic Layer |
-| +--------+     +-------------+       +------------------+ |
-|  |
-|  |
-| +--------+     +-------------+       +------------------+ |
-| Django ORM (Abstraction) |
-
-+---------------------------|----------------------------------+
-
-v
-
-+--------------------------- DATABASE LAYER -------------------+
-
-| PostgreSQL | MySQL | MSSQL | Oracle | SQLite |
-| --- | --- | --- | --- | --- |
-
-+-------------------------------------------------------------+
+### 2.3 Visual explanation of the system's operation
 
 ```
+┌─────────────────────────────────────────────────────────────┐
+│                    CLIENT BROWSER                          │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │               Angular Frontend (4200)                │  │
+│  │  ┌─────────────┐  ┌──────────────┐  ┌─────────────┐   │  │
+│  │  │ Components  │  │   Services   │  │   Models    │   │  │
+│  │  │ • BookList  │  │ • BookService│  │ • Book      │   │  │
+│  │  │ • LoanForm  │  │ • LoanService│  │ • Student   │   │  │
+│  │  │ • Student   │  │ • Student    │  │ • Loan      │   │  │
+│  │  └─────────────┘  └──────┬───────┘  └─────────────┘   │  │
+│  │         ▲                 │                           │  │
+│  │         │                 ▼                           │  │
+│  │    ┌────┴─────────────────────────────┐               │  │
+│  │    │  PrimeNG + Tailwind CSS UI       │               │  │
+│  │    │ • DataTables • Forms • Charts    │               │  │
+│  │    └──────────────────────────────────┘               │  │
+│  └───────────────────────┬───────────────────────────────┘  │
+└──────────────────────────┼──────────────────────────────────┘
+                           │
+                    HTTP REST API (JSON)
+                           │
+┌──────────────────────────▼──────────────────────────────────┐
+│               Django Backend (8000)                        │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │                   REST API Layer                      │  │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌────────────┐   │  │
+│  │  │   ViewSets   │  │ Serializers  │  │   URLs     │   │  │
+│  │  │ • BookViewSet│  │ • Book       │  │ /api/books/│   │  │
+│  │  │ • LoanViewSet│  │ • Loan       │  │ /api/loans/│   │  │
+│  │  │ • Student    │  │ • Student    │  │ /students/ │   │  │
+│  │  └──────┬───────┘  └──────────────┘  └────────────┘   │  │
+│  └─────────┼─────────────────────────────────────────────┘  │
+│            │                                                │
+│  ┌─────────▼─────────────────────────────────────────────┐  │
+│  │                 Business Logic Layer                  │  │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────────────────┐ │  │
+│  │  │  Models  │  │  Admin   │  │   Middleware         │ │  │
+│  │  │ • Book   │  │ • Book   │  │ • CORS               │ │  │
+│  │  │ • Author │  │ • Loan   │  │ • Authentication     │ │  │
+│  │  │ • Loan   │  │ • Student│  │ • Validation         │ │  │
+│  │  └────┬─────┘  └──────────┘  └──────────────────────┘ │  │
+│  └───────┼───────────────────────────────────────────────┘  │
+│          │                                                  │
+│  ┌───────▼───────────────────────────────────────────────┐  │
+│  │              Django ORM (Database Abstraction)        │  │
+│  └───────┬───────────────────────────────────────────────┘  │
+└──────────┼──────────────────────────────────────────────────┘
+           │
+┌──────────▼───────────────────────────────────────────────────┐
+│                    DATABASE LAYER                            │
+│  ┌────────────┐  ┌───────────┐  ┌────────────┐  ┌──────────┐ │
+│  │ PostgreSQL │  │   MySQL   │  │ SQL Server │  │  SQLite  │ │
+│  │   15       │  │   8.0     │  │   2019     │  │ (Dev)    │ │
+│  └────────────┘  └───────────┘  └────────────┘  └──────────┘ │
+└──────────────────────────────────────────────────────────────┘
 
-## 3. Database Documentation (ENGLISH)
+DATA FLOW:
+1. User interaction → Angular Component
+2. Component calls Service method
+3. Service makes HTTP request to Django API
+4. Django ViewSet processes request
+5. Serializer validates/transforms data
+6. Model interacts with database via ORM
+7. Response flows back through layers
+8. Angular updates UI with received data
+```
+
+## 3. Database Documentation
 
 ### 3.1 Database Description
-Relational schema for cataloging, user management, and circulation.
-Core entities: Book, Author, Student, Loan, BookCopy.  
-Constraints and business rules enforced via API validation and DB constraints.
 
-### 3.2 ERD — ASCII (No Images)
+The U-Library system uses a **normalized relational database** designed for academic library operations. The database supports multiple engines through Django ORM abstraction while maintaining data integrity through foreign key constraints and business logic validation.
+
+**Key Design Principles:**
+- Third Normal Form (3NF) compliance
+- Referential integrity with cascade operations
+- Unique constraints on business keys
+- Indexed fields for performance optimization
+
+### 3.2 ERD – Entity Relationship Diagram
+
+```
+[IMAGE: erd-diagram.png]
+Description: Entity Relationship Diagram showing all tables and their relationships
+Manual Usuario: Mostrará captura completa del diagrama ERD generado
 ```
 
-Book (id PK, isbn UNIQUE, title, publication_year, publisher_id FK, category_id FK)
+```
+ENTITY RELATIONSHIP DIAGRAM (ASCII Representation):
 
-| 1:N |
-| --- |
-
-v
-
-BookCopy (id PK, copy_code, status, book_id FK)
-
-Author (id PK, first_name, last_name, nationality, birth_date)
-
-^ N:M via BookAuthor
-
-|  |
-| --- |
-
-BookAuthor (book_id FK -> Book, author_id FK -> Author)  -- join table
-
-Student (id PK, student_code UNIQUE, first_name, last_name, email UNIQUE, phone, career)
-
-| 1:N |
-| --- |
-
-v
-
-Loan (id PK, loan_date, due_date, return_date, status, student_id FK)
-
+BOOKS ─────┐             STUDENTS ─────┐
+  id PK    │               id PK       │
+  isbn     │               student_code│
+  title    │               first_name  │
+  year     │               last_name   │
+  publisher│               email       │
+           │               career      │
+           │                           │
+           └──────────┐                │
+AUTHORS ──────────────┤                │
+  id PK               │                │
+  first_name          │                │
+  last_name           │                │
+  nationality         │                │
+                      │                │
+BOOK_AUTHORS ─────────┘                │
+  book_id PK,FK ───────────────────────┘
+  author_id PK,FK                       │
+                                        │
+BOOK_COPIES ────────────────────────────┤LOANS
+  id PK                                 │  id PK
+  book_id FK ───────────────────────────┘  student_id FK
+  copy_code                               │  book_copy_id FK
+  status                                  │  loan_date
+  location                                │  due_date
+                                          │  return_date
+CATEGORIES ─────┐                         │  status
+  id PK         │                         │
+  name          │                         │
+  description   │                         │
+                │                         │
+BOOK_CATEGORIES ┘                    RESERVATIONS
+  book_id PK,FK ──────────────────────┐  id PK
+  category_id PK,FK                   │  student_id FK
+                                      │  book_id FK
+PUBLISHERS ─────┐                     │  reservation_date
+  id PK         │                     │  expiry_date
+  name          │                     │  status
+  address       │                     │
+  contact       │                     └───────────┘
+                │
+BOOK.publisher_id FK ──────────────────┘
 ```
 
 ### 3.3 Logical Model
-- Book(id, isbn, title, publication_year, publisher_id, category_id)
-- Author(id, first_name, last_name, nationality, birth_date)
-- Student(id, student_code, first_name, last_name, email, phone, career)
-- Loan(id, loan_date, due_date, return_date, status, student_id)
-- BookCopy(id, copy_code, status, book_id)
-- BookAuthor(book_id, author_id)
+
+**Core Entities Definition:**
+
+1. **Book**
+   - Represents bibliographic information
+   - Attributes: ISBN (unique), title, publication year, publisher reference
+   - Business Rules: ISBN validation, title uniqueness per publisher
+
+2. **Author**
+   - Represents book authors
+   - Attributes: Name, nationality, birth date
+   - Business Rules: Unique name+birthdate combination
+
+3. **Student**
+   - Represents library users
+   - Attributes: Student code (unique), personal information, academic program
+   - Business Rules: Email uniqueness, active status validation
+
+4. **BookCopy**
+   - Represents physical book instances
+   - Attributes: Copy code, status, location
+   - Business Rules: Status transitions, availability checks
+
+5. **Loan**
+   - Represents book lending transactions
+   - Attributes: Dates, status, relationships
+   - Business Rules: Loan limits, overdue calculations
 
 ### 3.4 Physical Model (Tables)
-| Table     | Column            | Type            | PK/FK | Description                          |
-|-----------|-------------------|-----------------|-------|--------------------------------------|
-| books     | id                | SERIAL/INT      | PK    | Book identifier                      |
-|           | isbn              | VARCHAR(13)     |       | Unique ISBN                          |
-|           | title             | VARCHAR(200)    |       | Title                                |
-|           | publication_year  | INTEGER         |       | Year                                 |
-|           | publisher_id      | INT             | FK    | publishers(id)                       |
-|           | category_id       | INT             | FK    | categories(id)                       |
-| book_copy | id                | SERIAL/INT      | PK    | Copy identifier                      |
-|           | copy_code         | VARCHAR         |       | Inventory code                       |
-|           | status            | VARCHAR         |       | available, loaned, maintenance, lost |
-|           | book_id           | INT             | FK    | books(id)                            |
-| student   | id                | SERIAL/INT      | PK    | Student identifier                   |
-|           | student_code      | VARCHAR         |       | Unique code                          |
-|           | first_name        | VARCHAR         |       | First name                           |
-|           | last_name         | VARCHAR         |       | Last name                            |
-|           | email             | VARCHAR         |       | Unique email                         |
-|           | phone             | VARCHAR         |       | Phone number                         |
-|           | career            | VARCHAR         |       | Academic program                     |
-| loan      | id                | SERIAL/INT      | PK    | Loan identifier                      |
-|           | loan_date         | DATE/TIMESTAMP  |       | Start date                           |
-|           | due_date          | DATE/TIMESTAMP  |       | Due date                             |
-|           | return_date       | DATE/TIMESTAMP  |       | Date returned                        |
-|           | status            | VARCHAR         |       | pending, active, returned, overdue   |
-|           | student_id        | INT             | FK    | student(id)                          |
 
-Example DDL (PostgreSQL):
-```
+#### Books Table
+| Table | Column | Type | PK/FK | Description |
+|-------|--------|------|-------|-------------|
+| books | id | BigAutoField | PK | Primary key |
+| books | isbn | CharField(13) | UK | Unique ISBN identifier |
+| books | title | CharField(200) | - | Book title |
+| books | publication_year | IntegerField | - | Publication year |
+| books | publisher_id | BigInteger | FK | Publisher reference |
 
-CREATE TABLE books_book (
+#### Authors Table
+| Table | Column | Type | PK/FK | Description |
+|-------|--------|------|-------|-------------|
+| authors | id | BigAutoField | PK | Primary key |
+| authors | first_name | CharField(100) | - | Author first name |
+| authors | last_name | CharField(100) | - | Author last name |
+| authors | nationality | CharField(50) | - | Author nationality |
 
-id SERIAL PRIMARY KEY,
+#### Students Table
+| Table | Column | Type | PK/FK | Description |
+|-------|--------|------|-------|-------------|
+| students | id | BigAutoField | PK | Primary key |
+| students | student_code | CharField(20) | UK | Unique student identifier |
+| students | email | EmailField | UK | Student email address |
+| students | career | CharField(50) | - | Academic program |
 
-isbn VARCHAR(13) UNIQUE NOT NULL,
-
-title VARCHAR(200) NOT NULL,
-
-publication_year INTEGER NOT NULL,
-
-publisher_id INTEGER REFERENCES publishers_publisher(id),
-
-category_id INTEGER REFERENCES categories_category(id)
-
-);
-
-```
-
-## 4. Use Cases — CRUD
+## 4. Use Cases – CRUD
 
 ### 4.1 Use Case: Create Book
-Actor: Librarian  
-Preconditions: Valid ISBN and title.  
-Postconditions: Book created and available for copy registration.  
-Main Flow:
-1. Click “New Book”.
-2. Enter fields.
-3. System checks uniqueness of ISBN.
-4. System saves and returns confirmation.
 
-### 4.2 Use Case: Read Book
-- List supports pagination, filters, text search, and sorting.
-- Detail view shows full metadata.
+**Actor:** Librarian  
+**Description:** Add a new book to the library catalog  
+**Preconditions:** User authenticated with librarian privileges, publisher exists  
+**Postconditions:** Book record created, available for inventory management  
+**Main Flow:**
+1. Navigate to Books → New Book
+2. Enter ISBN (validated for format)
+3. Enter title and publication year
+4. Select publisher from dropdown
+5. Assign authors and categories
+6. Submit form
+7. System validates data and creates record
+8. Success confirmation displayed
 
-### 4.3 Use Case: Update Book
-- Edit fields, validate, save.
+### 4.2 Use Case: Read Books
+
+**Actor:** Student/Librarian  
+**Description:** Browse and search library catalog  
+**Preconditions:** System operational, catalog populated  
+**Postconditions:** Book information displayed, no data modification  
+**Main Flow:**
+1. Access books listing page
+2. View paginated results with book details
+3. Use search functionality by title/author/ISBN
+4. Apply filters by category/availability
+5. Sort results by various criteria
+6. View individual book details with copy availability
+
+### 4.3 Use Case: Update Book Information
+
+**Actor:** Librarian  
+**Description:** Modify existing book records  
+**Preconditions:** Book exists in system, user has edit permissions  
+**Postconditions:** Book information updated, changes persisted  
+**Main Flow:**
+1. Locate book in listing
+2. Access edit interface
+3. Modify desired fields (title, authors, categories)
+4. Validate changes
+5. Save updates
+6. System applies changes and confirms
 
 ### 4.4 Use Case: Delete Book
-- Allowed when no blocking dependencies exist.
+
+**Actor:** Librarian  
+**Description:** Remove book from catalog  
+**Preconditions:** Book exists, no active loans for any copies  
+**Postconditions:** Book removed from active catalog, historical data preserved  
+**Main Flow:**
+1. Access book management interface
+2. Select delete action for target book
+3. System checks for active loans
+4. Confirm deletion in dialog
+5. Execute soft/hard delete based on configuration
+6. Update inventory counts
 
 ## 5. Backend Documentation
 
 ### 5.1 Backend Architecture
-Django + DRF with ViewSets, Serializers, URL routing, and JWT authentication.
+
+The backend follows **Django MTV (Model-Template-View)** pattern adapted for API:
+
+- **Models:** Data layer with Django ORM
+- **ViewSets:** Request handling and business logic
+- **Serializers:** Data transformation and validation
+- **URLs:** RESTful endpoint routing
+
+**Key Design Patterns:**
+- Repository pattern (Django ORM)
+- Serializer pattern for data transformation
+- ViewSet pattern for CRUD operations
+- Router pattern for automatic URL mapping
 
 ### 5.2 Folder Structure
+
 ```
-
 backend/
-
-├── apps/
-
-│   ├── books/
-
-│   │   ├── [models.py](http://models.py)
-
-│   │   ├── [views.py](http://views.py)
-
-│   │   ├── [serializers.py](http://serializers.py)
-
-│   │   └── [urls.py](http://urls.py)
-
-│   ├── students/
-
-│   └── loans/
-
-├── config/
-
-│   ├── [settings.py](http://settings.py)
-
-│   └── [urls.py](http://urls.py)
-
-└── [manage.py](http://manage.py)
-
+├── config/                          # Project configuration
+│   ├── settings.py                  # Global settings
+│   ├── urls.py                      # Main URL routing
+│   └── wsgi.py                      # WSGI entry point
+├── apps/                            # Django applications
+│   ├── books/                       # Book management
+│   │   ├── models.py                # Book, BookCopy models
+│   │   ├── views.py                 # BookViewSet, BookCopyViewSet
+│   │   ├── serializers.py           # Book serializers
+│   │   └── urls.py                  # Book API routes
+│   ├── students/                    # Student management
+│   │   ├── models.py                # Student model
+│   │   ├── views.py                 # StudentViewSet
+│   │   └── serializers.py           # Student serializers
+│   ├── loans/                       # Loan management
+│   │   ├── models.py                # Loan model
+│   │   ├── views.py                 # LoanViewSet
+│   │   └── services.py              # Loan business logic
+│   └── reservations/                # Reservation management
+├── utils/                           # Utility functions
+│   ├── validators.py                # Custom validators
+│   └── helpers.py                   # Helper functions
+└── manage.py                        # Django management script
 ```
 
 ### 5.3 API Documentation (REST)
-Books
-- `GET /api/books/` — List books
-- `POST /api/books/` — Create book
-- `GET /api/books/{id}/` — Retrieve book
-- `PUT /api/books/{id}/` — Update book
-- `DELETE /api/books/{id}/` — Delete book
 
-Loans
-- `POST /api/loans/` — Create loan
-- `PUT /api/loans/{id}/return/` — Return book copy
+**Method Path:** `GET /api/books/`
 
-Students
-- `GET /api/students/` — List students
+**Purpose:** Retrieve paginated list of books with filtering and search capabilities  
+**Request Body Example:** None (query parameters only)
 
-Request example:
-```
+**Query Parameters:**
+- `page` - Page number (default: 1)
+- `search` - Search term for title/author/ISBN
+- `category` - Filter by category ID
+- `available` - Filter by availability
 
+**Responses:**
+- **200 OK**
+```json
 {
-
-"isbn": "978-0123456789",
-
-"title": "One Hundred Years of Solitude",
-
-"publication_year": 1967,
-
-"publisher_id": 1,
-
-"category_id": 2
-
+  "count": 150,
+  "next": "http://api.ulibrary.com/books/?page=2",
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "isbn": "9780123456789",
+      "title": "Sample Book Title",
+      "publication_year": 2023,
+      "publisher": {"id": 1, "name": "Sample Publisher"},
+      "authors": [
+        {"id": 1, "first_name": "John", "last_name": "Doe"}
+      ],
+      "available_copies": 3
+    }
+  ]
 }
-
 ```
 
-Status codes:
-- 200 OK, 201 Created, 204 No Content
-- 400 Bad Request, 404 Not Found, 500 Server Error
-
-Authentication:
-- JWT Bearer tokens in Authorization header.
-
-### 5.4 REST Client
-- Postman collections grouped by entity.
-- Environments for local and production.
-- Auth folder for login and token refresh.
-
-### 5.5 Environment Variables
+- **400 Bad Request**
+```json
+{
+  "error": "Invalid search parameters",
+  "details": {"page": ["Ensure this value is greater than or equal to 1."]}
+}
 ```
 
-DATABASE_URL=postgresql://user:[pass@localhost](mailto:pass@localhost)/ulibrary
+**Method Path:** `POST /api/books/`
 
-SECRET_KEY=your-secret-key
-
-DEBUG=True
-
+**Purpose:** Create a new book record  
+**Request Body Example:**
+```json
+{
+  "isbn": "9780123456789",
+  "title": "New Book Title",
+  "publication_year": 2024,
+  "publisher": 1,
+  "authors": [1, 2],
+  "categories": [3, 5]
+}
 ```
 
-### 5.6 Scripts
-```
+**Responses:**
+- **201 Created** - Book successfully created
+- **400 Bad Request** - Validation errors
+- **409 Conflict** - ISBN already exists
 
-python [manage.py](http://manage.py) runserver
+### 5.4 REST Client Examples
 
-python [manage.py](http://manage.py) makemigrations
+**Using curl:**
+```bash
+# Get all books
+curl -X GET "http://localhost:8000/api/books/?search=django&page=1"
 
-python [manage.py](http://manage.py) migrate
+# Create new book
+curl -X POST "http://localhost:8000/api/books/" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "isbn": "9780123456789",
+    "title": "Django for Professionals",
+    "publication_year": 2024,
+    "publisher": 1
+  }'
 
+# Update book
+curl -X PUT "http://localhost:8000/api/books/1/" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Updated Book Title"}'
 ```
 
 ## 6. Frontend Documentation
 
-### 6.1 Tech and Structure
-Framework: Angular 20.0.0
+### 6.1 Technical Frontend Documentation
+
+**Framework Used:** Angular 20.0.0 with TypeScript
+
+**Architecture Pattern:** Component-based architecture with service layer
+
+**Key Concepts:**
+- Components for UI presentation
+- Services for business logic and API communication
+- Models/Interfaces for type safety
+- RxJS Observables for reactive programming
+- Router for navigation and lazy loading
+
+### 6.2 Folder Structure
 
 ```
-
-src/app/
-
-├── components/
-
-│   ├── book/
-
-│   │   ├── book-list/
-
-│   │   ├── book-create/
-
-│   │   └── book-edit/
-
-│   ├── loan/
-
-│   └── student/
-
-├── services/
-
-│   ├── book.service.ts
-
-│   ├── loan.service.ts
-
-│   └── student.service.ts
-
-├── models/
-
-│   ├── book.model.ts
-
-│   └── loan.model.ts
-
-└── app.routes.ts
-
+src/
+├── app/
+│   ├── core/                        # Core functionality
+│   │   ├── auth/                    # Authentication
+│   │   ├── interceptors/            # HTTP interceptors
+│   │   └── guards/                  # Route guards
+│   ├── shared/                      # Shared resources
+│   │   ├── components/              # Reusable components
+│   │   ├── models/                  # TypeScript interfaces
+│   │   └── services/                # Shared services
+│   ├── features/                    # Feature modules
+│   │   ├── books/                   # Book management
+│   │   │   ├── components/          # Book components
+│   │   │   │   ├── book-list/
+│   │   │   │   ├── book-create/
+│   │   │   │   ├── book-edit/
+│   │   │   │   └── book-detail/
+│   │   │   ├── services/            # Book services
+│   │   │   └── books.routes.ts      # Book routing
+│   │   ├── loans/                   # Loan management
+│   │   ├── students/                # Student management
+│   │   └── dashboard/               # Dashboard
+│   ├── layouts/                     # Layout components
+│   │   ├── main-layout/             # Main layout
+│   │   └── auth-layout/             # Auth layout
+│   └── app.routes.ts                # Main routing
+├── assets/                          # Static assets
+└── environments/                    # Environment configs
 ```
 
-API Consumption (example):
-```
+**Models, Services and Components:**
 
-// book.service.ts
-
-getBooks(): Observable<Book[]> {
-
-return this.http.get<Book[]>('/api/books/');
-
+**Book Model:**
+```typescript
+export interface Book {
+  id: number;
+  isbn: string;
+  title: string;
+  publication_year: number;
+  publisher: Publisher;
+  authors: Author[];
+  categories: Category[];
+  available_copies: number;
 }
 
+export interface BookCreateDto {
+  isbn: string;
+  title: string;
+  publication_year: number;
+  publisher: number;
+  authors: number[];
+  categories: number[];
+}
 ```
 
-### 6.2 Frontend Operation (ASCII)
+**Book Service:**
+```typescript
+@Injectable({ providedIn: 'root' })
+export class BookService {
+  private apiUrl = `${environment.apiUrl}/books`;
+  
+  constructor(private http: HttpClient) {}
+  
+  getBooks(params?: any): Observable<Book[]> {
+    return this.http.get<Book[]>(this.apiUrl, { params });
+  }
+  
+  createBook(book: BookCreateDto): Observable<Book> {
+    return this.http.post<Book>(this.apiUrl, book);
+  }
+  
+  updateBook(id: number, book: BookCreateDto): Observable<Book> {
+    return this.http.put<Book>(`${this.apiUrl}/${id}/`, book);
+  }
+}
 ```
 
-[Component] -> [Service: HttpClient] -> /api/... -> [Response]
+### 6.3 Visual explanation of the system's operation
 
-| render table/forms with PrimeNG |
-| --- |
-| Tailwind for styling |
+```
+[IMAGE: frontend-architecture.png]
+Description: Angular component hierarchy and data flow
+Manual Usuario: Mostrará captura del dashboard principal con todos los módulos
+```
 
+```
+ANGULAR COMPONENT HIERARCHY:
+
+AppComponent
+├── MainLayoutComponent
+│   ├── HeaderComponent
+│   ├── SidebarComponent
+│   └── RouterOutlet
+│       ├── DashboardComponent (default)
+│       ├── BookListComponent (/books)
+│       │   └── BookDetailComponent
+│       ├── BookCreateComponent (/books/create)
+│       ├── BookEditComponent (/books/edit/:id)
+│       ├── StudentListComponent (/students)
+│       ├── LoanListComponent (/loans)
+│       └── ReservationListComponent (/reservations)
+└── AuthLayoutComponent (/login)
+
+DATA FLOW:
+User Action → Component → Service → HTTP → API → Database
+       ↑                                      ↓
+       └── Component ← Observable ← Service ← Response
 ```
 
 ## 7. Frontend–Backend Integration
-- Auth: Login → JWT token → Authorization header → automatic refresh.
-- Errors: HTTP interceptors + toast messages + loading states.
 
-End‑to‑End flow (Create Loan):
-```
+The integration follows RESTful principles with JSON data exchange:
 
-Frontend (Form) -> LoanService -> POST /api/loans/
+**Authentication Flow:**
+1. Login request with credentials
+2. JWT token generation
+3. Token inclusion in subsequent requests
+4. Automatic token refresh
 
--> Backend (LoanViewSet) validates -> creates record
+**Error Handling:**
+- HTTP status code mapping
+- User-friendly error messages
+- Network error recovery
 
-<- Response -> UI shows success/error
+**Data Synchronization:**
+- Real-time updates via RxJS observables
+- Optimistic UI updates
+- Conflict resolution strategies
 
-```
+## 8. Conclusions & Recommendations
 
-## 8. Business Rules
-- Max 5 active loans per student.
-- Cannot loan a copy already loaned.
-- Reservations expire after 3 days.
-- Late fees: $1 per day.
+### 8.1 Conclusions
 
-## 9. Repository Structure (Proposed)
-```
+The U-Library system successfully implements a modern, scalable architecture that meets university library requirements. The separation between frontend and backend allows for independent development and deployment. The multi-database support provides flexibility for different institutional environments.
 
-U-Library/
+### 8.2 Recommendations
 
-├── docs/
+**Short-term Improvements:**
+- Implement comprehensive unit testing
+- Add API rate limiting
+- Enhance error logging and monitoring
 
-│   ├── User_[Manual.md](http://Manual.md)
+**Long-term Enhancements:**
+- Mobile application development
+- Advanced analytics and reporting
+- Integration with university identity systems
+- RFID book tracking implementation
 
-│   ├── System_[Manual.md](http://Manual.md)
+**Performance Optimizations:**
+- Database query optimization
+- Frontend bundle optimization
+- Caching strategy implementation
 
-│   └── images/   # optional, kept empty since docs use ASCII diagrams
-
-├── frontend/
-
-├── backend/
-
-├── [README.md](http://README.md)
-
-└── LICENSE
-
-```
-
-## 10. License
-MIT License
-
-## 11. Pending Inputs
-- Instructor’s name
-- GitHub repository URL
-- Deadline and any professor‑specific requirements
-```
-
-Archivo: docs/User_[Manual.md](http://Manual.md)
-
-```markdown
-# U‑Library — User Manual
-
-## 1. Introduction
-U‑Library is a web system for university library management. It supports books, authors, students, loans, reservations, and reports. This guide explains how to use the application as an end user.
-
-## 2. Getting Started
-### 2.1 Access and Login
-1. Open your browser and navigate to the system URL.
-2. Enter your email and password.
-3. Click “Login”.
-
-### 2.2 Layout Overview
-- Sidebar: navigation between modules (Dashboard, Books, Students, Loans, Reservations, Reports).
-- Top bar: user menu and notifications.
-- Content area: lists, forms, and details.
-
-### 2.3 Roles and Permissions
-- Librarian: full access to cataloging, loans, and reservations.
-- Assistant: limited access to daily operations.
-- Student: self‑service reservations and viewing personal loans (if enabled).
-
-## 3. Books
-### 3.1 List and Search
-- Go to Books.
-- Search by title or author.
-- Filter by category, status, publication year.
-- Sort by any visible column.
-- Use pagination controls at the bottom.
-
-### 3.2 Create a Book
-1. Click “New Book”.
-2. Fill ISBN, Title, Publication Year, Publisher, Category, Authors.
-3. Click “Save”.
-4. A success toast confirms creation.
-
-Validation:
-- ISBN must be unique.
-- Title is required.
-
-### 3.3 Edit a Book
-1. Open the row menu and click “Edit”.
-2. Update fields and “Save”.
-
-### 3.4 Delete a Book
-1. Open the row menu and click “Delete”.
-2. Confirm in the dialog to remove the record.
-
-## 4. Students
-### 4.1 List, Search, and Filters
-- Go to Students.
-- Search by name, student code, or email.
-- Filter as needed.
-
-### 4.2 Create a Student
-1. Click “New Student”.
-2. Fill student code, first name, last name, email, phone, career.
-3. Click “Save”.
-
-Validation:
-- Student code and email must be unique.
-
-## 5. Loans
-### 5.1 Create a Loan
-1. Go to Loans and click “New Loan”.
-2. Select student and book copy.
-3. Set due date and “Create Loan”.
-
-Rules enforced:
-- Max 5 active loans per student.
-- A copy already loaned cannot be loaned again.
-- Due date must be after loan date.
-
-### 5.2 Active Loans
-- View active loans.
-- Filter by student, status, or date.
-
-### 5.3 Return a Book
-1. From the loan row, select “Return”.
-2. Confirm. Status becomes “returned”.
-
-## 6. Reservations
-### 6.1 List Reservations
-- View pending, confirmed, or expired reservations.
-
-### 6.2 Create a Reservation
-1. Click “New Reservation”.
-2. Select student and book.
-3. Confirm reservation.
-
-Rules:
-- Reservations expire after 3 days if not fulfilled.
-
-## 7. Notifications and Errors
-- Success: green toast with confirmation.
-- Validation/server error: red toast with details.
-- Examples: duplicate ISBN, invalid email, copy already loaned.
-
-## 8. Tips
-- Combine search + filters for precise results.
-- Use column sorting to quickly find recent or relevant items.
-- Keep unique fields accurate to avoid duplicates.
-
-## 9. Appendix — ASCII Diagrams (No Images)
-
-### 9.1 System Overview (User Perspective)
-```
-
-[User] -> [UI Navigation]
-
-|  | __ Books (list/search/filter/sort/paginate) |
-| --- | --- |
-|  | __ Students (list/create) |
-|  | __ Loans (create/return) |
-|  | __ Reservations (create/list) |
-|  |  |
-
--> Toast feedback (success/error)
-
-```
-
-### 9.2 Loan Creation Flow (End‑to‑End)
-```
-
-Form -> Validate fields -> Submit
-
--> API POST /api/loans/
-
--> Server validates business rules
-
--> Creates record, updates statuses
-
-<- Response 201 or error
-
-UI shows success/error toast
+---
