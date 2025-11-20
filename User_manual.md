@@ -16,7 +16,7 @@ U-Library es un sistema web para la gestión de bibliotecas universitarias. Perm
 ## 2. Primeros Pasos
 
 ### 2.1 Acceso e Inicio de Sesión
-- Abra su navegador y diríjase a la URL de U-Library proporcionada por su institución.
+- Abra su navegador y diríjase a la URL de U-Library.
 - Ingrese su correo electrónico y contraseña.
 - Haga clic en "Iniciar Sesión".
 
@@ -214,7 +214,7 @@ U-Library es un sistema web para la gestión de bibliotecas universitarias. Perm
 
 ### 9.2 Crear una Reserva
 - Haga clic en **"Nueva Reserva"**.
-- Seleccione estudiante y libro (no ejemplar específico).
+- Seleccione estudiante y libro (no Libro específico).
 - El sistema asigna automáticamente fecha de expiración (3 días).
 - Haga clic en **"Confirmar Reserva"**.
 
@@ -229,28 +229,28 @@ U-Library es un sistema web para la gestión de bibliotecas universitarias. Perm
 
 ## 10. Ejemplares de Libros
 
-### 10.1 Gestionar Ejemplares
-- Desde el detalle de un libro, vaya a la pestaña **"Ejemplares"**.
-- Vea todos los ejemplares físicos del libro.
-- Cada ejemplar tiene un código único.
+### 10.1 Gestionar Libros
+- Desde el detalle de un libro, vaya a la pestaña **"Libros"**.
+- Vea todos los Libros.
+- Cada Libro tiene un código único.
 
-![Gestión de Ejemplares](https://Img/book-copies.png)
+![Gestión de Libros](https://Img/book-copies.png)
 
-### 10.2 Agregar Ejemplar
-- Haga clic en **"Agregar Ejemplar"**.
-- Ingrese el código del ejemplar y ubicación.
+### 10.2 Agregar Libro
+- Haga clic en **"Agregar Libro"**.
+- Ingrese el código del Libro y ubicación.
 - El estado por defecto es **"Disponible"**.
 
-![Agregar Ejemplar](https://Img/add-copy.png)
+![Agregar Libro](https://Img/add-copy.png)
 
 ### 10.3 Cambiar Estado de Ejemplar
-- Para cada ejemplar, puede cambiar el estado:
+- Para cada Libro, puede cambiar el estado:
   - **Disponible:** listo para préstamo
   - **Prestado:** actualmente en préstamo
   - **En reparación:** no disponible temporalmente
   - **Extraviado:** dado por perdido
 
-![Cambiar Estado Ejemplar](https://Img/copy-status.png)
+![Cambiar Estado Libro](https://Img/copy-status.png)
 
 ## 11. Notificaciones y Errores
 
