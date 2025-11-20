@@ -1,127 +1,152 @@
 ---
-title: "U-Library User Manual"
-author: "Samuel Baquero"
-date: "2025-11-20"
+titulo: "U-Library Manual de Usuario"
+autor: "Samuel Baquero"
+Fecha: "2025-11-20"
 output:
   md_document:
     variant: preserve_yaml
     markdown: true
 ---
-# U-Library — User Manual
 
-## 1. Introduction
-U-Library is a web system for university library management. It allows the administration of books, authors, students, loans, reservations, and reports. This guide explains how to use the application from the end-user perspective.
+U-Library — Manual de Usuario
+1. Introducción
+U-Library es un sistema web para la gestión de bibliotecas universitarias. Permite administrar libros, autores, estudiantes, préstamos, reservas y reportes. Esta guía explica cómo usar la aplicación desde la perspectiva del usuario final.
 
-## 2. Getting Started
-### 2.1 Access and Login
-- Open your browser and navigate to the U-Library URL provided by your institution.
-- Enter your email and password.
-- Click “Login”.
+2. Primeros Pasos
+2.1 Acceso e Inicio de Sesión
+Abra su navegador y diríjase a la URL de U-Library proporcionada por su institución.
 
-![Login](images/login.png)
+Ingrese su correo electrónico y contraseña.
 
-### 2.2 Layout Overview
-- Sidebar: navigation between modules (Dashboard, Books, Students, Loans, Reservations, Reports).
-- Top bar: user menu and notifications.
-- Content area: lists, forms, and details.
+Haga clic en "Iniciar Sesión".
 
-![Dashboard](images/dashboard.png)
-![Layout with sidebar](images/layout.png)
+https://Img/login.png
 
-## 3. Books
-### 3.1 List and Search
-- Go to Books.
-- Use search by title or author.
-- Apply filters by category, status, and publication year.
-- Sort by columns.
+2.2 Descripción General del Diseño
+Barra lateral: navegación entre módulos (Dashboard, Libros, Estudiantes, Préstamos, Reservas, Reportes).
 
-![Book list](images/book-list.png)
+Barra superior: menú de usuario y notificaciones.
 
-### 3.2 Create a Book
-- Click “New Book”.
-- Fill: ISBN, Title, Publication year, Publisher, Category, Authors.
-- Click “Save”.
-- You will see a success confirmation.
+Área de contenido: listas, formularios y detalles.
 
-![Create book](images/book-create.png)
+https://Img/dashboard.png
+https://Img/layout.png
 
-### 3.3 Edit a Book
-- Open the book’s row menu, click “Edit”.
-- Update fields and click “Save”.
-- You will see a success confirmation.
+3. Libros
+3.1 Listar y Buscar
+Vaya a Libros.
 
-![Edit book](images/book-edit.png)
+Use la búsqueda por título o autor.
 
-### 3.4 Delete a Book
-- Open the book’s row menu, click “Delete”.
-- Confirm in the dialog.
-- You will see a success confirmation.
+Aplique filtros por categoría, estado y año de publicación.
 
-![Delete book confirmation](images/book-delete-confirm.png)
+Ordene por columnas.
 
-## 4. Students
-### 4.1 List and Search
-- Go to Students.
-- Search by name, code, or email.
-- Apply filters as needed.
+https://Img/book-list.png
 
-![Student list](images/student-list.png)
+3.2 Crear un Libro
+Haga clic en "Nuevo Libro".
 
-### 4.2 Create a Student
-- Click “New Student”.
-- Fill: student code, first name, last name, email, phone, career.
-- Click “Save”.
+Complete: ISBN, Título, Año de publicación, Editorial, Categoría, Autores.
 
-![Create student](images/student-create.png)
+Haga clic en "Guardar".
 
-## 5. Loans
-### 5.1 Create a Loan
-- Go to Loans.
-- Click “New Loan”.
-- Select student and book copy.
-- Set due date.
-- Click “Create Loan”.
+Verá una confirmación de éxito.
 
-![Create loan](images/loan-create.png)
+https://Img/book-create.png
 
-### 5.2 Active Loans
-- View active loans in the list.
-- Filter by student, status, or date.
+3.3 Editar un Libro
+Abra el menú de la fila del libro, haga clic en "Editar".
 
-![Active loans](images/loan-active-list.png)
+Actualice los campos y haga clic en "Guardar".
 
-### 5.3 Return a Book
-- Open the loan’s row menu, select “Return”.
-- Confirm return; the status becomes “returned”.
+Verá una confirmación de éxito.
 
-![Return process](images/loan-return.png)
+https://Img/book-edit.png
 
-## 6. Reservations
-### 6.1 List Reservations
-- Go to Reservations.
-- View pending, confirmed, or expired reservations.
+3.4 Eliminar un Libro
+Abra el menú de la fila del libro, haga clic en "Eliminar".
 
-![Reservation list](images/reservation-list.png)
+Confirme en el diálogo.
 
-### 6.2 Create a Reservation
-- Click “New Reservation”.
-- Select student and book.
-- Confirm reservation.
+Verá una confirmación de éxito.
 
-![Create reservation](images/reservation-create.png)
+https://Img/book-delete-confirm.png
 
-## 7. Notifications and Errors
-- Successful actions display a green toast message.
-- Validation errors or server errors display a red toast message.
-- If a book copy is already loaned, the system will prevent new loans.
+4. Estudiantes
+4.1 Listar y Buscar
+Vaya a Estudiantes.
 
-## 8. Tips
-- Use pagination controls at the bottom of lists.
-- Combine search with filters for faster results.
-- Keep student email unique to avoid duplicates.
+Busque por nombre, código o correo electrónico.
 
-## 9. Appendix — Screenshot Guidelines
-- Size: 1280x720 px
-- Format: PNG or JPG
-- Use realistic sample data
-- Include confirmation or error messages when relevant
+Aplique filtros según sea necesario.
+
+https://Img/student-list.png
+
+4.2 Crear un Estudiante
+Haga clic en "Nuevo Estudiante".
+
+Complete: código de estudiante, nombre, apellido, correo electrónico, teléfono, carrera.
+
+Haga clic en "Guardar".
+
+https://Img/student-create.png
+
+5. Préstamos
+5.1 Crear un Préstamo
+Vaya a Préstamos.
+
+Haga clic en "Nuevo Préstamo".
+
+Seleccione estudiante y ejemplar del libro.
+
+Establezca fecha de vencimiento.
+
+Haga clic en "Crear Préstamo".
+
+https://Img/loan-create.png
+
+5.2 Préstamos Activos
+Vea los préstamos activos en la lista.
+
+Filtre por estudiante, estado o fecha.
+
+https://images/loan-active-list.png
+
+5.3 Devolver un Libro
+Abra el menú de la fila del préstamo, seleccione "Devolver".
+
+Confirme la devolución; el estado cambiará a "devuelto".
+
+https://Img/loan-return.png
+
+6. Reservas
+6.1 Listar Reservas
+Vaya a Reservas.
+
+Vea reservas pendientes, confirmadas o vencidas.
+
+https://Img/reservation-list.png
+
+6.2 Crear una Reserva
+Haga clic en "Nueva Reserva".
+
+Seleccione estudiante y libro.
+
+Confirme la reserva.
+
+https://Img/reservation-create.png
+
+7. Notificaciones y Errores
+Las acciones exitosas muestran un mensaje toast verde.
+
+Los errores de validación o del servidor muestran un mensaje toast rojo.
+
+Si un ejemplar de libro ya está prestado, el sistema evitará nuevos préstamos.
+
+8. Consejos
+Use los controles de paginación en la parte inferior de las listas.
+
+Combine búsqueda con filtros para resultados más rápidos.
+
+Mantenga el correo electrónico del estudiante único para evitar duplicados.
